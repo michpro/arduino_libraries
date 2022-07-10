@@ -142,25 +142,18 @@ void Max7219::setIntensity(const uint8_t intensity)
 
 /**
  *  \brief A method for testing the correct operation of the MAX7219 chip(s) chain.
+ * 
+ *  \param doTest   if true then turn on chip test (all segments on),
+ *                  if false, turn off chip test (turn off all segments)
 **/
-void Max7219::test(void)
+void Max7219::test(boolean doTest)
 {
-    constexpr uint32_t  delayPeriod {500};
-    constexpr uint8_t   repeats     {10};
+    uint16_t testcmd {doTest ? (regDisplayTest | 0x0001) : regDisplayTest};
 
-    for (uint8_t i = 0; i < repeats; ++i)
+    do
     {
-        do
-        {
-            sendCmd(regDisplayTest | 0x0001);                       // switch test bit on
-        } while (isChainBusy());
-        delay(delayPeriod);
-        do
-        {
-            sendCmd(regDisplayTest);                                // switch test bit off
-        } while (isChainBusy());
-        delay(delayPeriod);
-    }
+        sendCmd(testcmd);
+    } while (isChainBusy());
 }
 
 /**
