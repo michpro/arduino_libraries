@@ -60,7 +60,7 @@ public:
     boolean isInitialized(void);
     boolean isChainBusy(void);
     void    setIntensity(const uint8_t intensity);
-    void    test(boolean doTest);
+    void    test(const boolean doTest);
     void    shutdown(void);
     void    activate(void);
     void    clear(void);

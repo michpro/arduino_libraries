@@ -146,7 +146,7 @@ void Max7219::setIntensity(const uint8_t intensity)
  *  \param doTest   if true then turn on chip test (all segments on),
  *                  if false, turn off chip test (turn off all segments)
 **/
-void Max7219::test(boolean doTest)
+void Max7219::test(const boolean doTest)
 {
     uint16_t testcmd {doTest ? (regDisplayTest | 0x0001) : regDisplayTest};
 
