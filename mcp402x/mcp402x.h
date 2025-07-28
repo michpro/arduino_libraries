@@ -1,13 +1,14 @@
 /**
- * \file    mcp402x.h
- * \brief   Library to drive MCP402x devices - non-volatile,
- *          6-bit (64 wiper steps) digital potentiometers
+ * @file    mcp402x.h
+ * @brief   Library to drive MCP402X devices - non-volatile, 6-bit (64 wiper steps) digital potentiometers
  *          with a simple up/down serial interface.
  *
- * \copyright SPDX-FileCopyrightText: Copyright 2022-2023 Michal Protasowicki
+ * This header file defines the interface for controlling MCP402X digital potentiometers using an Arduino.
+ * It provides a class with methods to initialize the chip, adjust the wiper position, retrieve the current
+ * position, and save settings to non-volatile memory.
  *
- * \license SPDX-License-Identifier: MIT
- *
+ * @copyright SPDX-FileCopyrightText: Copyright 2022-2023 Michal Protasowicki
+ * @license SPDX-License-Identifier: MIT
  */
 
 #pragma once
@@ -17,35 +18,30 @@
 namespace Mcp402xNS
 {
     /**
-     * \brief Maximum value of wiper resistance (according to chip's datasheet).
-    **/
+     * @brief Maximum value of wiper resistance (according to chip's datasheet).
+     */
     constexpr uint8_t   maxValue        {0x3F};
 
     /**
-     * \brief Minimum value of wiper resistance (according to chip's datasheet).
-    **/
+     * @brief Minimum value of wiper resistance (according to chip's datasheet).
+     */
     constexpr uint8_t   minValue        {0x00};
 
     /**
-     *  \brief Structure containing the context of MCP402x chip settings.
-     * 
-     *  \param csPin            chip select input pin. Active LOW enables the serial commands.
-     *  \param udPin            U/D input pin is used to increment or decrement the wiper on the digital potentiometer.
-     *  \param currentValue     Potentiometer wiper current value.
-     *                          Attention!!! When using non-volatile chip mode,
-     *                          the value may be invalid after initialization (always equal to 0x00).
-     *                          In NV mode, you must maintain this value yourself, as it cannot be read from the chip.
-     *  \param isInitialized    A variable indicating whether the initialization allowing communication
-     *                          with the chip has been performed - the init() method has been called.
-    **/
+     * @brief Structure containing the context of MCP402X chip settings.
+     *
+     * This structure holds the configuration and state of the MCP402X chip, including pin assignments
+     * and the current wiper value.
+     */
     typedef struct
     {
-        uint8_t         csPin           {0x02};
-        uint8_t         udPin           {0x03};
-        uint8_t         currentValue    {0x00};
-        bool            isInitialized   {false};
+        uint8_t         csPin           {0x02};         // Chip select input pin (active LOW enables serial commands).
+        uint8_t         udPin           {0x03};         // Up/Down pin to increment or decrement the wiper.
+        uint8_t         currentValue    {0x00};         // Current wiper value (0 to 63). In non-volatile mode, this
+                                                        // may be invalid after init (defaults to 0x00) and must be
+                                                        // maintained manually as it cannot be read from the chip.
+        bool            isInitialized   {false};        // Indicates if the chip has been initialized via init().
     } context_t;
-    
 }
 
 class Mcp402x
@@ -54,132 +50,142 @@ public:
     Mcp402x(void) = delete;
 
     /**
-     *  \brief Mcp402x class constructor.
-     * 
-     *  \param ctx[in] a reference to structure containing settings for chip.
-    **/
+     * @brief Constructor for Mcp402x class.
+     *
+     * Initializes the Mcp402x object with a reference to a context structure.
+     *
+     * @param ctx[in] Reference to the context structure containing chip settings.
+     */
     Mcp402x(Mcp402xNS::context_t &ctx);
 
     /**
-     *  \brief Mcp402x class destructor.
-    **/
+     * @brief Destructor for Mcp402x class.
+     *
+     * Cleans up resources used by the Mcp402x object.
+     */
     virtual ~Mcp402x(void);
 
     /**
-     *  \brief Method that initializes MCP402x chip based on data from the 'ctx' structure.
-     * 
-     *  \return returns true if initialized, false otherwise.
-    **/
+     * @brief Initializes the MCP402X chip using the current context.
+     *
+     * Configures the GPIO pins as outputs and sets initial states (CS high, U/D high).
+     *
+     * @return true if initialization is successful, false otherwise (e.g., if context is null).
+     */
     bool init(void);
 
     /**
-     *  \brief Method that initializes MCP402x chip based on data from passed 'ctx' structure.
+     * @brief Initializes the MCP402X chip with a new context.
      *
-     *  \param ctx[in] a reference to structure containing settings for chip
+     * Updates the internal context and initializes the chip accordingly.
      *
-     *  \return returns true if initialized, false otherwise.
-    **/
+     * @param ctx[in]   Reference to the new context structure containing chip settings.
+     * @return          true if initialization is successful, false otherwise.
+     */
     bool init(Mcp402xNS::context_t &ctx);
 
     /**
-     *  \brief A method that allows you to indicate context with settings for the chip. 
+     * @brief Sets a new context for the MCP402X chip.
      *
-     *  \param ctx[in] a reference to structure containing settings for chip.
-    **/
+     * Updates the internal context pointer without initializing the chip.
+     *
+     * @param ctx[in] Reference to the new context structure containing chip settings.
+     */
     void setCtx(Mcp402xNS::context_t &ctx);
 
     /**
-     *  \brief A method that checks whether chip with current context has been initialized.
+     * @brief Checks if the chip has been initialized.
      *
-     *  \return returns true if initialized, false otherwise.
-    **/
+     * @return true if the chip is initialized (init() was called successfully), false otherwise.
+     */
     bool isInitialized(void);
 
     /**
-     *  \brief  A method, used after initialization of NV-mode chip context,
-     *          to update the potentiometer wiper value stored by the object.
-     *          It allows you to synchronize the value stored in context 
-     *          (restored from external non-volatile memory) with chip wiper state setting,
-     *          which we can't read from it.
+     * @brief Updates the wiper value stored in the context.
      *
-     *  \param[in] value Value to store in current context.
-     * 
-     *  \return true if successful writing to the context, false otherwise.
-    **/
+     * Useful for synchronizing the context with the chip’s state in non-volatile mode, where the
+     * actual wiper position cannot be read directly from the chip.
+     *
+     * @param value[in] New wiper value to store in the context (0 to 63).
+     * @return          true if the value was updated successfully, false otherwise (e.g., if uninitialized).
+     */
     bool updateWiperValue(const uint8_t value);
 
     /**
-     *  \brief  A method to increase position of potentiometer wiper. 
-     * 
-     *  \return true if position has been changed, false otherwise. 
-    **/
+     * @brief Increments the wiper position by one step.
+     *
+     * Moves the wiper up if it’s not already at the maximum value (63).
+     *
+     * @return true if the wiper was incremented, false if already at max or uninitialized.
+     */
     bool up(void);
 
     /**
-     *  \brief  A method to decrease position of potentiometer wiper. 
+     * @brief Decrements the wiper position by one step.
      *
-     *  \return true if position has been changed, false otherwise. 
-    **/
+     * Moves the wiper down if it’s not already at the minimum value (0).
+     *
+     * @return true if the wiper was decremented, false if already at min or uninitialized.
+     */
     bool down(void);
 
     /**
-     *  \brief  A method that sets the state of potentiometer wiper position to a selected value. 
+     * @brief Sets the wiper to a specific value.
      *
-     *  \param[in] value Potentiometer wiper value to set.
-     * 
-     *  \return true when value has been changed, false otherwise. 
-    **/
+     * Adjusts the wiper position to the specified value (clamped to 0-63).
+     *
+     * @param value[in] Desired wiper value (0 to 63; values > 63 are set to 63).
+     * @return          true if the wiper value was changed, false otherwise (e.g., if uninitialized).
+     */
     bool set(uint8_t value);
 
     /**
-     *  \brief  A method that reads the status of potentiometer wiper position from current context.
+     * @brief Retrieves the current wiper value from the context.
      *
-     *  \return Value of current state of potentiometer wiper, read from context.
-     *          When context is uninitialized, it always returns Mcp402xNS::minValue.
-    **/
+     * @return Current wiper value (0 to 63) if initialized, Mcp402xNS::minValue (0) otherwise.
+     */
     uint8_t get(void);
 
     /**
-     *  \brief  A method that saves the current value of potentiometer wiper
-     *          in the chip's internal non-volatile memory.
+     * @brief Saves the current wiper value to the chip’s non-volatile memory.
      *
-     *  \return Value of current state of potentiometer wiper, read from context.
-     *          When context is uninitialized, it always returns Mcp402xNS::minValue.
-    **/
+     * Ensures the wiper position persists across power cycles.
+     *
+     * @return Current wiper value after the save attempt; Mcp402xNS::minValue if uninitialized.
+     */
     uint8_t keepNonVolatile(void);
 
 protected:
-    static const unsigned int   pulseDelay  {1};
-    static const unsigned int   minCsTime   {5};
-
-    Mcp402xNS::context_t       *_ctx        {nullptr};
+    static const unsigned int   pulseDelay  {1};        // Delay between pulses in microseconds.
+    static const unsigned int   minCsTime   {5};        // Minimum chip select time in microseconds.
+    Mcp402xNS::context_t       *_ctx        {nullptr};  // Pointer to the chip’s context.
 
     /**
-     *  \brief  An internal class type specifying direction of potentiometer wiper.
-    **/
+     * @brief Enumeration for wiper direction.
+     */
     typedef enum Direction : bool
     {
-        DOWN    = false,
-        UP      = true,
+        DOWN    = false,                                // Decrease wiper position.
+        UP      = true                                  // Increase wiper position.
     } direction_t;
 
     /**
-     *  \brief  An internal class type that determines whether potentiometer wiper value
-     *          is to be stored in non-volatile memory of the chip.
-    **/
+     * @brief Enumeration for non-volatile memory option.
+     */
     typedef enum KeepNV : bool
     {
-        NO      = false,
-        YES     = true,
+        NO      = false,                                // Do not save to non-volatile memory.
+        YES     = true                                  // Save to non-volatile memory.
     } keepNV_t;
 
     /**
-     *  \brief  Method that sends n pulses to U/D pin of MCP402x chip
-     *          to change the resistance value.
+     * @brief Sends a series of pulses to adjust the wiper position.
      *
-     *  \param pulses[in]       number of pulses to be sent
-     *  \param dir[in]          potentiometer wiper direction
-     *  \param nonVolatile[in]  whether to save data in internal non-volatile memory of chip.
-    **/
+     * Controls the U/D and CS pins to move the wiper or save to non-volatile memory.
+     *
+     * @param pulses[in]        Number of pulses to send (steps to move the wiper).
+     * @param dir[in]           Direction to move the wiper (UP or DOWN).
+     * @param nonVolatile[in]   Whether to save the new position to non-volatile memory.
+     */
     void pulse(const uint8_t pulses, const direction_t dir, const keepNV_t nonVolatile);
 };
