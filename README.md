@@ -1,6 +1,7 @@
 # Useful Arduino libraries
 
 * [BooleanSolver](/BooleanSolver/README.md) - used to solve Boolean expressions in the form of strings
+* [GD32 RTC Calibration](/GD32_RTC_Calibration/README.md) - library for calibrating the Real-Time Clock (RTC) on GD32 microcontrollers
 * [I²C utility](/i2c_helper/README.md) - a set of functions to simplify communication with devices over the I²C bus
 * [MAX7219](/max7219/README.md) - library to control MAX7219 chips (serially interfaced drivers for 8-digit 7-segment LED displays or LED matrices)
 * [MCP402X](/mcp402x/README.md) - library to control MCP402X digital potentiometers
