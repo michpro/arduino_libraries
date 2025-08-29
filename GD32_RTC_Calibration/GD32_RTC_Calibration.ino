@@ -5,7 +5,7 @@
  *              calibrates the RTC using the library. It prints calibration status, frequency,
  *              and progress to the serial console.
  *
- * @note        This example assumes a GD32F50x or GD32F30x microcontroller. LED2 toggles on PPS events.
+ * @note        This example assumes a GD32F50x or GD32F30x microcontroller. LED toggles on PPS events.
  *              PB4 is used as the PPS input pin.
  *
  * @copyright   SPDX-FileCopyrightText: Copyright 2025 Michal Protasowicki
@@ -15,8 +15,14 @@
 
 #include "src/RTCCalibration.h"
 
-#if !defined(GD32F50x) && !defined(GD32F30x)
+#if !defined(GD32F50x) && !defined(GD32F30x) && !defined(GD32F10x)
     #error "Unsupported hardware !!!"
+#endif
+
+#if defined(GD32F10x)
+    #define LED LED_BUILTIN
+#else
+    #define LED LED2
 #endif
 
 const uint32_t  TICK_TIME       {10000};                // Status presentation interval (ms)
@@ -28,11 +34,11 @@ bool            calibrated      {false};                // Flag indicating if ca
 
 /**
  * @brief   Callback function triggered on each PPS interrupt.
- *          Toggles LED2 to visually indicate PPS events.
+ *          Toggles LED to visually indicate PPS events.
  */
 void ppsCallback(void)
 {
-    digitalToggle(LED2);
+    digitalToggle(LED);
 }
 
 /**
@@ -43,7 +49,7 @@ void setup(void)
 {
     rtc_Init();                                         // Initialize the RTC module
 
-    pinMode(LED2, OUTPUT);                              // Configure LED2 as output for toggling
+    pinMode(LED, OUTPUT);                               // Configure LED as output for toggling
     pinMode(PB4, INPUT_PULLDOWN);                       // Configure PB4 as input for PPS signal
     Serial.begin(115200);                               // Start serial communication at 115200 baud
 
