@@ -38,7 +38,6 @@ namespace RTCCalibration
         bool                calibrationDone         {false};                    // Flag for completed calibration
         bool                calibrationValueValid   {false};                    // Flag for valid calibration value
         states_t            state                   {ST_IDLE};                  // Current calibration state machine state
-        PinName             pinname                 {NC};                       // PPS pin name (GD core internal type)
 
         /**
          * @brief   Interrupt handler for PPS signal.
@@ -134,8 +133,8 @@ namespace RTCCalibration
     void begin(const pin_size_t ppsPin)
     {
         state = ST_IDLE;
-        
-        pinname = DIGITAL_TO_PINNAME(ppsPin);                           // Convert pin to PinName
+
+        PinName pinname {DIGITAL_TO_PINNAME(ppsPin)};                   // Convert pin to PinName
         gpio_interrupt_enable(GD_PORT_GET(pinname), GD_PIN_GET(pinname), ppsIrqHandler, EXTI_TRIG_RISING);  // Enable interrupt
     }
 
@@ -144,7 +143,7 @@ namespace RTCCalibration
      * @param   ppsPin      Pin number for PPS input.
      * @param   callbackFn  Function to call on each PPS interrupt.
      */
-    void begin(const pin_size_t ppsPin, fnPpsIrqCallback_t callbackFn)
+    void begin(const pin_size_t ppsPin, const fnPpsIrqCallback_t callbackFn)
     {
         attachPpsIrqCallback(callbackFn);                               // Attach callback first
         begin(ppsPin);                                                  // Call base begin
@@ -325,7 +324,7 @@ namespace RTCCalibration
      * @brief   Applies the prescaler for the given frequency.
      * @param   frequency Target frequency in Hz.
      */
-    void apply(uint32_t frequency)
+    void apply(const uint32_t frequency)
     {
         rtc_prescaler_set(frequency - 1);                           // Set RTC prescaler
     }
@@ -335,7 +334,7 @@ namespace RTCCalibration
      * @brief   Applies calibration value (GD32F10x specific).
      * @param   calibrationValue Positive correction value.
      */
-    void apply(uint8_t calibrationValue)
+    void apply(const uint8_t calibrationValue)
     {
         bkp_rtc_calibration_value_set(calibrationValue & 0x7F);
     }
@@ -344,7 +343,7 @@ namespace RTCCalibration
      * @brief   Applies signed calibration value.
      * @param   calibrationValue Signed correction value.
      */
-    void apply(int8_t calibrationValue)
+    void apply(const int8_t calibrationValue)
     {
         uint16_t dir {(0 <= calibrationValue) ? RTC_CLOCK_SPEED_UP : RTC_CLOCK_SLOWED_DOWN};  // Determine direction
 
@@ -359,14 +358,14 @@ namespace RTCCalibration
      * @param   frequency           Target frequency in Hz.
      * @param   calibrationValue    Positive correction value.
      */
-    void apply(uint32_t frequency, uint8_t calibrationValue)
+    void apply(const uint32_t frequency, const uint8_t calibrationValue)
 #else
     /**
      * @brief   Applies both frequency and signed calibration value.
      * @param   frequency           Target frequency in Hz.
      * @param   calibrationValue    Signed correction value.
      */
-    void apply(uint32_t frequency, int8_t calibrationValue)
+    void apply(const uint32_t frequency, const int8_t calibrationValue)
 #endif
     {
         apply(frequency);                                           // Apply frequency first
@@ -377,7 +376,7 @@ namespace RTCCalibration
      * @brief   Attaches a callback function to PPS interrupts.
      * @param   callbackFn Function to attach.
      */
-    void attachPpsIrqCallback(fnPpsIrqCallback_t callbackFn)
+    void attachPpsIrqCallback(const fnPpsIrqCallback_t callbackFn)
     {
         fnPpsIrqCallback = callbackFn;                              // Set callback pointer
     }

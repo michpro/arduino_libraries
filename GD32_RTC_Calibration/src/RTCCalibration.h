@@ -56,7 +56,7 @@ namespace RTCCalibration
      * @param   ppsPin      Pin number for PPS input.
      * @param   callbackFn  Function to call on each PPS interrupt.
      */
-    void begin(const pin_size_t ppsPin, fnPpsIrqCallback_t callbackFn);
+    void begin(const pin_size_t ppsPin, const fnPpsIrqCallback_t callbackFn);
 
     /**
      * @brief   Advances the calibration process.
@@ -112,39 +112,39 @@ namespace RTCCalibration
      * @brief   Applies frequency prescaler.
      * @param   frequency Target frequency in Hz.
      */
-    void apply(uint32_t frequency);
+    void apply(const uint32_t frequency);
 
 #if defined(GD32F10x)
     /**
      * @brief   Applies calibration value (GD32F10x).
      * @param   calibrationValue Positive value.
      */
-    void apply(uint8_t calibrationValue);
+    void apply(const uint8_t calibrationValue);
 
     /**
      * @brief   Applies frequency and calibration (GD32F10x).
      * @param   frequency           Target frequency.
      * @param   calibrationValue    Positive value.
      */
-    void apply(uint32_t frequency, uint8_t calibrationValue);
+    void apply(const uint32_t frequency, const uint8_t calibrationValue);
 # else
     /**
      * @brief   Applies signed calibration value.
      * @param   calibrationValue Signed value.
      */
-    void apply(int8_t calibrationValue);
+    void apply(const int8_t calibrationValue);
 
     /**
      * @brief   Applies frequency and signed calibration.
      * @param   frequency           Target frequency.
      * @param   calibrationValue    Signed value.
      */
-    void apply(uint32_t frequency, int8_t calibrationValue);
+    void apply(const uint32_t frequency, const int8_t calibrationValue);
 #endif
 
     /**
      * @brief   Attaches PPS callback.
      * @param   callbackFn Function to attach.
      */
-    void attachPpsIrqCallback(fnPpsIrqCallback_t callbackFn);
+    void attachPpsIrqCallback(const fnPpsIrqCallback_t callbackFn);
 };
