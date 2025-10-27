@@ -1,5 +1,6 @@
 # Useful Arduino libraries
 
+* [AstroTimes](/AstroTimes/README.md) - library providing stateless functions for calculating solar phenomena (sunrise, sunset, twilight) and moon phases
 * [BooleanSolver](/BooleanSolver/README.md) - used to solve Boolean expressions in the form of strings
 * [GD32 RTC Calibration](/GD32_RTC_Calibration/README.md) - library for calibrating the Real-Time Clock (RTC) on GD32 microcontrollers
 * [I²C utility](/i2c_helper/README.md) - a set of functions to simplify communication with devices over the I²C bus
