@@ -319,7 +319,7 @@ namespace AstroTimes
             // *** Second pass to refine the calculation ***
             // Use the approximate time (fTimeUTC) to recalculate the parameters
             // for a more accurate Julian century value.
-            float newt          {calcTimeJulianCentury(calcJulianDateFromJulianCentury(julianCentury) + fTimeUTC / 1440.0F)};
+            float newt      {calcTimeJulianCentury(calcJulianDateFromJulianCentury(julianCentury) + fTimeUTC / 1440.0F)};
 
             eqTime = calcEquationOfTime(newt);
             solarDec = calcSunDeclination(newt);
