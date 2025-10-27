@@ -5,6 +5,7 @@
 * [I²C utility](/i2c_helper/README.md) - a set of functions to simplify communication with devices over the I²C bus
 * [MAX7219](/max7219/README.md) - library to control MAX7219 chips (serially interfaced drivers for 8-digit 7-segment LED displays or LED matrices)
 * [MCP402X](/mcp402x/README.md) - library to control MCP402X digital potentiometers
+* [NTPClient](/NTPClient/README.md) - library provides a simple way to get the current Coordinated Universal Time (UTC) from a Network Time Protocol (NTP) server
 * [Wire](/wire_avr_one_buffer/) - modified ``Wire`` library for AVR architecture - uses only one buffer and has an increased transaction buffer to 160 bytes by default
 
 ## **Reporting bugs**
