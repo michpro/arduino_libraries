@@ -2,6 +2,7 @@
 
 * [AstroTimes](/AstroTimes/README.md) - library providing stateless functions for calculating solar phenomena (sunrise, sunset, twilight) and moon phases
 * [BooleanSolver](/BooleanSolver/README.md) - used to solve Boolean expressions in the form of strings
+* [Ethernet](/Ethernet/docs/readme.md) - modified ``Ethernet`` library v2.0.2 (allows the use of any SPI interface, added HostName support and bug fixes)
 * [GD32 RTC Calibration](/GD32_RTC_Calibration/README.md) - library for calibrating the Real-Time Clock (RTC) on GD32 microcontrollers
 * [I²C utility](/i2c_helper/README.md) - a set of functions to simplify communication with devices over the I²C bus
 * [MAX7219](/max7219/README.md) - library to control MAX7219 chips (serially interfaced drivers for 8-digit 7-segment LED displays or LED matrices)
@@ -25,7 +26,10 @@ The libraries in this repository are licensed under the MIT licence.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-The exception is the  [``Wire``](/wire_avr_one_buffer/)  library, which is licensed under the LGPL v2.1 licence (**inherited from the original**) *and I do not have the copyright to it*.
+The exceptions are (*and I do not hold the copyright to them*):
+- under LGPL v2.1 licence (**inherited from the original**):
+  - [``Wire``](/wire_avr_one_buffer/) library
+  - [``Ethernet``](/Ethernet/) library
 
 [![License: LGPL v2.1](https://img.shields.io/badge/License-LGPL_v2.1-blue.svg)](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)
 
