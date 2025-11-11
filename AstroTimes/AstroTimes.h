@@ -39,11 +39,11 @@ namespace AstroTimes
         SUNRISE_STANDARD    = 0,    //!< Standard sunrise (top limb at horizon, 90.833°)
         SUNRISE_CIVIL,              //!< Civil twilight sunrise (center of sun 6° below horizon, 96°)
         SUNRISE_NAUTICAL,           //!< Nautical twilight sunrise (center of sun 12° below horizon, 102°)
-        SUNRISE_ASTONOMICAL,        //!< Astronomical twilight sunrise (center of sun 18° below horizon, 108°)
+        SUNRISE_ASTRONOMICAL,       //!< Astronomical twilight sunrise (center of sun 18° below horizon, 108°)
         SUNSET_STANDARD,            //!< Standard sunset (top limb at horizon, 90.833°)
         SUNSET_CIVIL,               //!< Civil twilight sunset (center of sun 6° below horizon, 96°)
         SUNSET_NAUTICAL,            //!< Nautical twilight sunset (center of sun 12° below horizon, 102°)
-        SUNSET_ASTONOMICAL,         //!< Astronomical twilight sunset (center of sun 18° below horizon, 108°)
+        SUNSET_ASTRONOMICAL,        //!< Astronomical twilight sunset (center of sun 18° below horizon, 108°)
     } Event_t;
     
     /**

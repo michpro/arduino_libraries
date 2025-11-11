@@ -38,7 +38,7 @@ namespace AstroTimes
         //! Nautical twilight sun angle (sun 12° below horizon)
         constexpr float SUN_ANGLE_NAUTICAL      {102.0F};
         //! Astronomical twilight sun angle (sun 18° below horizon)
-        constexpr float SUN_ANGLE_ASTONOMICAL   {108.0F};
+        constexpr float SUN_ANGLE_ASTRONOMICAL  {108.0F};
         
         // --- Time Constants ---
         
@@ -297,7 +297,7 @@ namespace AstroTimes
     time_t calcSunEvent(Event_t event, time_t time, float latitude, float longitude)
     {
         // Array of zenith angles corresponding to the Event enum
-        static const float  angles[] =      {SUN_ANGLE_STANDARD, SUN_ANGLE_CIVIL, SUN_ANGLE_NAUTICAL, SUN_ANGLE_ASTONOMICAL};
+        static const float  angles[] =      {SUN_ANGLE_STANDARD, SUN_ANGLE_CIVIL, SUN_ANGLE_NAUTICAL, SUN_ANGLE_ASTRONOMICAL};
         // Determine the zenith angle offset.
         float               offset          {angles[(uint8_t)event % (sizeof(angles) / sizeof(angles[0]))]};
         // Determine if this is a sunrise (1.0) or sunset (-1.0) event

@@ -88,7 +88,7 @@ void setup()
     time_t sunrise      {AstroTimes::calcSunEvent(AstroTimes::SUNRISE_STANDARD, date, LATITUDE, LONGITUDE)};
     time_t sunset       {AstroTimes::calcSunEvent(AstroTimes::SUNSET_STANDARD, date, LATITUDE, LONGITUDE)};
     time_t civilDawn    {AstroTimes::calcSunEvent(AstroTimes::SUNRISE_CIVIL, date, LATITUDE, LONGITUDE)};
-    time_t astroDusk    {AstroTimes::calcSunEvent(AstroTimes::SUNSET_ASTONOMICAL, date, LATITUDE, LONGITUDE)};
+    time_t astroDusk    {AstroTimes::calcSunEvent(AstroTimes::SUNSET_ASTRONOMICAL, date, LATITUDE, LONGITUDE)};
 
     Serial.print("Standard Sunrise (UTC): ");
     Serial.println(formatTime(sunrise));
@@ -120,7 +120,7 @@ void loop()
 1. **Helper Function**: A function formatTime is defined to convert the time_t seconds-from-midnight value (returned by calcSunEvent) into a human-readable HH:MM:SS string.
 2. **Initialization**: A specific location (Berlin) and a specific date are defined.
 3. **Date Setup**: A tm struct is populated for October 26, 2025, and then converted to a time_t using mktime(). This date variable is used for all calculations.
-4. **Sun Calculation**: AstroTimes::calcSunEvent is called multiple times using different Event enums (e.g. SUNRISE_STANDARD, SUNSET_ASTONOMICAL) to get the times for various solar events.
+4. **Sun Calculation**: AstroTimes::calcSunEvent is called multiple times using different Event enums (e.g. SUNRISE_STANDARD, SUNSET_ASTRONOMICAL) to get the times for various solar events.
 5. **Output**: The results are formatted using our helper function and printed to the Serial Monitor. Note that all times are in UTC.
 6. **Moon Calculation**: AstroTimes::moonPhase is called with the same time_t to get the current lunar day (0-29).
 
@@ -161,10 +161,10 @@ typedef enum : uint8_t
     SUNRISE_STANDARD    = 0,    // Standard sunrise (top limb at horizon, 90.833°)
     SUNRISE_CIVIL,              // Civil twilight sunrise (center of sun 6° below horizon, 96°)
     SUNRISE_NAUTICAL,           // Nautical twilight sunrise (center of sun 12° below horizon, 102°)
-    SUNRISE_ASTONOMICAL,        // Astronomical twilight sunrise (center of sun 18° below horizon, 108°)
+    SUNRISE_ASTRONOMICAL,       // Astronomical twilight sunrise (center of sun 18° below horizon, 108°)
     SUNSET_STANDARD,            // Standard sunset (top limb at horizon, 90.833°)
     SUNSET_CIVIL,               // Civil twilight sunset (center of sun 6° below horizon, 96°)
     SUNSET_NAUTICAL,            // Nautical twilight sunset (center of sun 12° below horizon, 102°)
-    SUNSET_ASTONOMICAL,         // Astronomical twilight sunset (center of sun 18° below horizon, 108°)
+    SUNSET_ASTRONOMICAL,        // Astronomical twilight sunset (center of sun 18° below horizon, 108°)
 } Event_t;
 ```
