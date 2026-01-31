@@ -3,6 +3,7 @@
 * [AstroTimes](/AstroTimes/README.md) - library providing stateless functions for calculating solar phenomena (sunrise, sunset, twilight) and moon phases
 * [BooleanSolver](/BooleanSolver/README.md) - used to solve Boolean expressions in the form of strings
 * [Ethernet](/Ethernet/docs/readme.md) - modified ``Ethernet`` library v2.0.2 (allows the use of any SPI interface, added HostName support and bug fixes)
+* [GD32 CAN](/GD32CAN/README.md) - a C++ CAN bus library for **GD32F30x** and **GD32E50x** microcontrollers
 * [GD32 RTC Calibration](/GD32_RTC_Calibration/README.md) - library for calibrating the Real-Time Clock (RTC) on GD32 microcontrollers
 * [I²C utility](/i2c_helper/README.md) - a set of functions to simplify communication with devices over the I²C bus
 * [MAX7219](/max7219/README.md) - library to control MAX7219 chips (serially interfaced drivers for 8-digit 7-segment LED displays or LED matrices)
